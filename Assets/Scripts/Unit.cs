@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -13,6 +14,11 @@ public class Unit : MonoBehaviour
     
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
+    private void Awake()
+    {
+        _targetPosition = transform.position;
+    }
+
     private void Update()
     {
         if (Vector3.Distance(transform.position, _targetPosition) < stoppingDistance)
@@ -27,17 +33,12 @@ public class Unit : MonoBehaviour
 
             unitAnimator.SetBool(IsWalking, true);
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Move(MouseWorld.GetPosition());
-            
-            transform.DOLookAt(_targetPosition, rotateTime);
-        }
     }
 
-    private void Move(Vector3 targetPosition)
+    public void Move(Vector3 targetPosition)
     {
         _targetPosition = targetPosition;
+        
+        transform.DOLookAt(_targetPosition, rotateTime);
     }
 }
