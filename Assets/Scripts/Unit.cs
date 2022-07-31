@@ -1,5 +1,5 @@
-using System;
 using DG.Tweening;
+using Grid;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -11,12 +11,20 @@ public class Unit : MonoBehaviour
     [SerializeField] private Animator unitAnimator;
     
     private Vector3 _targetPosition;
+
+    private GridPosition _gridPosition;
     
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
     private void Awake()
     {
         _targetPosition = transform.position;
+    }
+
+    private void Start()
+    {
+        _gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddUnitAtGridPosition(_gridPosition, this);
     }
 
     private void Update()
@@ -32,6 +40,14 @@ public class Unit : MonoBehaviour
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
             unitAnimator.SetBool(IsWalking, true);
+        }
+        
+        var newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        
+        if (newGridPosition != _gridPosition)
+        {
+            LevelGrid.Instance.UnitMovedGridPosition(_gridPosition, newGridPosition, this);
+            _gridPosition = newGridPosition;
         }
     }
 
