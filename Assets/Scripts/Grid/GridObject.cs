@@ -41,5 +41,10 @@ namespace Grid
         {
             _units.Add(unit);
         }
+
+        public bool CheckIsOccupied()
+        {
+            return _units.Count > 0;
+        }
     }
 }

@@ -21,19 +21,11 @@ public class LevelGrid : MonoBehaviour
         }
         
         Instance = this;
-    }
-
-    void Start()
-    {
+        
         _gridSystem = new GridSystem(10, 10, 2f);
         _gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
     }
-
-    private void Update()
-    {
-        Debug.Log(_gridSystem.GetGridPosition(MouseWorld.GetPosition()));
-    }
-
+    
     public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
         var gridObject = _gridSystem.GetGridObject(gridPosition);
@@ -59,4 +51,14 @@ public class LevelGrid : MonoBehaviour
     }
 
     public GridPosition GetGridPosition(Vector3 worldPosition) => _gridSystem.GetGridPosition(worldPosition);
+    public Vector3 GetWorldPosition(GridPosition gridPosition) => _gridSystem.GetWorldPosition(gridPosition);
+    
+    public bool CheckValidGridPosition(GridPosition gridPosition) => _gridSystem.CheckValidGridPosition(gridPosition);
+    
+    public bool CheckIsUnitAtPosition(GridPosition gridPosition)
+    {
+        var gridObject = _gridSystem.GetGridObject(gridPosition);
+        
+        return gridObject.CheckIsOccupied();
+    }
 }
