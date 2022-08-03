@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Actions;
 using Grid;
 using UnityEngine;
@@ -7,11 +8,13 @@ public class Unit : MonoBehaviour
     private GridPosition _gridPosition;
     private MoveAction _moveAction;
     private SpinAction _spinAction;
+    private BaseAction[] _baseActions;
 
     private void Awake()
     {
         _moveAction = GetComponent<MoveAction>();
         _spinAction = GetComponent<SpinAction>();
+        _baseActions = GetComponents<BaseAction>();
     }
 
     private void Start()
@@ -44,5 +47,10 @@ public class Unit : MonoBehaviour
     public GridPosition GetGridPosition()
     {
         return _gridPosition;
+    }
+
+    public BaseAction[] GetBaseActions()
+    {
+        return _baseActions;
     }
 }

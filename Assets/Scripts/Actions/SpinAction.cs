@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
+using Grid;
 using UnityEngine;
 
 namespace Actions
 {
     public class SpinAction : BaseAction
     {
-        public void Spin(Action onSpinComplete)
+        [SerializeField] private Sprite spinSprite;
+        public override void TakeAction(GridPosition gridPosition, Action onSpinComplete)
         {
             IsActive = true;
             
@@ -16,11 +19,26 @@ namespace Actions
                 SetRelative(true).SetEase(Ease.Linear).OnComplete(EndSpin);
         }
 
+        public override List<GridPosition> GetValidActionGridPositionList()
+        {
+            var unitGridPosition = Unit.GetGridPosition();
+
+            return new List<GridPosition>
+            {
+                unitGridPosition
+            };
+        }
+
         private void EndSpin()
         {
             IsActive = false;
             
             onActionComplete();
+        }
+
+        public override Sprite GetActionImage()
+        {
+            return spinSprite;
         }
     }
 }

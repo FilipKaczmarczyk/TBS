@@ -60,9 +60,9 @@ namespace Grid
             if (UnitActionSystem.Instance.GetSelectedUnit() == null)
                 return;
             
-            var selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+            var baseAction = UnitActionSystem.Instance.GetSelectedAction();
             
-            ShowGridPositionList(selectedUnit.GetMoveAction().GetValidActionGridPositionList());
+            ShowGridPositionList(baseAction.GetValidActionGridPositionList());
         }
     }
 }

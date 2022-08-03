@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Grid;
 using UnityEngine;
 
 namespace Actions
@@ -13,7 +15,18 @@ namespace Actions
         {
             Unit = GetComponent<Unit>();
         }
-        
-        
+
+        public abstract Sprite GetActionImage();
+
+        public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
+
+        public virtual bool CheckIsValidGridPosition(GridPosition gridPosition)
+        {
+            var validGridPositions = GetValidActionGridPositionList();
+
+            return validGridPositions.Contains(gridPosition);
+        }
+
+        public abstract List<GridPosition> GetValidActionGridPositionList();
     }
 }

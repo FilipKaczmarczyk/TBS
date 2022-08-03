@@ -12,7 +12,7 @@ public class UnitSelectedVisual : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         UnitActionSystem.Instance.OnSelectedUnitChange += UnityActionSystem_OnSelectedUnitChange;
     }

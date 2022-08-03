@@ -8,6 +8,8 @@ namespace Actions
 {
     public class MoveAction : BaseAction
     {
+        [SerializeField] private Sprite moveSprite;
+        
         [SerializeField] private Animator unitAnimator;
         [SerializeField] private int maxMoveDistance = 4;
 
@@ -46,7 +48,7 @@ namespace Actions
             }
         }
 
-        public void Move(GridPosition targetPosition, Action onMoveComplete)
+        public override void TakeAction(GridPosition targetPosition, Action onMoveComplete)
         {
             IsActive = true;
             onActionComplete = onMoveComplete;
@@ -55,15 +57,8 @@ namespace Actions
         
             transform.DOLookAt(_targetPosition, rotateTime);
         }
-
-        public bool CheckIsValidPositionToMove(GridPosition gridPosition)
-        {
-            var validGridPositions = GetValidActionGridPositionList();
-
-            return validGridPositions.Contains(gridPosition);
-        }
-    
-        public List<GridPosition> GetValidActionGridPositionList()
+        
+        public override List<GridPosition> GetValidActionGridPositionList()
         {
             var validGridPositions = new List<GridPosition>();
 
@@ -90,6 +85,11 @@ namespace Actions
             }
         
             return validGridPositions;
+        }
+        
+        public override Sprite GetActionImage()
+        {
+            return moveSprite;
         }
     }
 }
