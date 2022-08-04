@@ -9,6 +9,9 @@ namespace Actions
     public class SpinAction : BaseAction
     {
         [SerializeField] private Sprite spinSprite;
+        
+        private const int SpinActionCost = 2;
+        
         public override void TakeAction(GridPosition gridPosition, Action onSpinComplete)
         {
             IsActive = true;
@@ -39,6 +42,11 @@ namespace Actions
         public override Sprite GetActionImage()
         {
             return spinSprite;
+        }
+
+        public override int GetActionPointsCost()
+        {
+            return SpinActionCost;
         }
     }
 }

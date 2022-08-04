@@ -8,8 +8,8 @@ public class UnitActionSystem : MonoBehaviour
     public static UnitActionSystem Instance { get; private set; }
     public event EventHandler OnSelectedUnitChange;
     public event EventHandler OnSelectedActionChange;
-
     public event EventHandler<bool> OnBusyChange;
+    public event EventHandler OnActionStarted;
     
     [SerializeField] private LayerMask unitLayerMask;
 
@@ -52,11 +52,14 @@ public class UnitActionSystem : MonoBehaviour
     {
         var gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
-        if (_selectedAction.CheckIsValidGridPosition(gridPosition))
-        {
-            SetBusy();
-            _selectedAction.TakeAction(gridPosition, ClearBusy);
-        }
+        if (!_selectedAction.CheckIsValidGridPosition(gridPosition)) return;
+        
+        if (!_selectedUnit.TrySpendActionPointsToTakeAction(_selectedAction)) return;
+            
+        SetBusy();
+        _selectedAction.TakeAction(gridPosition, ClearBusy);
+        
+        OnActionStarted?.Invoke(this, EventArgs.Empty);
     }
     
     private void SetBusy()

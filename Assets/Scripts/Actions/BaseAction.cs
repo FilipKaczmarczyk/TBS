@@ -9,7 +9,9 @@ namespace Actions
     {
         protected Unit Unit;
         protected bool IsActive;
-        protected Action onActionComplete; 
+        protected Action onActionComplete;
+        
+        private const int DefaultActionCost = 1;
 
         protected virtual void Awake()
         {
@@ -28,5 +30,10 @@ namespace Actions
         }
 
         public abstract List<GridPosition> GetValidActionGridPositionList();
+
+        public virtual int GetActionPointsCost()
+        {
+            return DefaultActionCost;
+        }
     }
 }
