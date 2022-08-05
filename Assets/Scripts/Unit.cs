@@ -6,6 +6,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public static event EventHandler OnAnyActionPointsChanged;
+    [SerializeField] private bool isEnemy;
     
     private GridPosition _gridPosition;
     private MoveAction _moveAction;
@@ -84,15 +85,18 @@ public class Unit : MonoBehaviour
         OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public int GetActionPoints()
-    {
-        return _actionPoints;
-    }
+    public int GetActionPoints() => _actionPoints;
 
     private void TurnSystem_OnTurnNumberChanged(object sender, EventArgs empty)
     {
-        _actionPoints = MAX_ACTION_POINTS;
+        if ((isEnemy && !TurnSystem.Instance.IsPlayerTurn()) ||
+            !isEnemy && TurnSystem.Instance.IsPlayerTurn())
+        {
+            _actionPoints = MAX_ACTION_POINTS;
         
-        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
+    
+    public bool IsEnemy() => isEnemy;
 }

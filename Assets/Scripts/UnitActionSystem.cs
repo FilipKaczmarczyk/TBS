@@ -31,7 +31,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private void Start()
     {
-        _selectedUnit = FindObjectOfType<Unit>();
+        SelectUnitAtStart();
         SetSelectedUnit(_selectedUnit);
     }
 
@@ -39,6 +39,8 @@ public class UnitActionSystem : MonoBehaviour
     {
         if (_isBusy) return;
 
+        if (!TurnSystem.Instance.IsPlayerTurn()) return;
+        
         if (EventSystem.current.IsPointerOverGameObject()) return;
         
         if (!Input.GetMouseButtonDown(0)) return;
@@ -46,6 +48,19 @@ public class UnitActionSystem : MonoBehaviour
         if (TryHandleUnitSelection()) return;
             
         HandleSelectionAction();
+    }
+
+    private void SelectUnitAtStart()
+    {
+        var units = FindObjectsOfType<Unit>();
+
+        foreach (var unit in units)
+        {
+            if(unit.IsEnemy()) 
+                continue;
+            
+            _selectedUnit = unit;
+        }
     }
 
     private void HandleSelectionAction()
@@ -84,7 +99,9 @@ public class UnitActionSystem : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent(out Unit unit))
             {
-                if (unit == _selectedUnit) return false; 
+                if (unit == _selectedUnit) return false; // Unit is already selected
+
+                if (unit.IsEnemy()) return false; // Click on enemy
                 
                 SetSelectedUnit(unit);
                 return true;
