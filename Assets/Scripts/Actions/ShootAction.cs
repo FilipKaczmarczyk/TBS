@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Grid;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Actions
 {
     public class ShootAction : BaseAction
     {
+        public event EventHandler OnShoot;
+        
         private enum State
         {
             Aiming,
@@ -69,6 +70,7 @@ namespace Actions
 
         private void Shoot()
         {
+            OnShoot?.Invoke(this, EventArgs.Empty);
             _targetUnit.Damage();
         }
 

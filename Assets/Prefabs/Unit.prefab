@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: -7906423296653627476}
   - component: {fileID: 5532152542510032054}
   - component: {fileID: 5932341939706837423}
+  - component: {fileID: 1978836223269161619}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -221,6 +222,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootSprite: {fileID: 21300000, guid: dc8518386f59d0e43982ddabb9f1fc39, type: 3}
+--- !u!114 &1978836223269161619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6654778442798546340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d04daa5e64e49e4d9088702d7cdb7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6705517215653688137}
 --- !u!1001 &6654778442752940520
 PrefabInstance:
   m_ObjectHideFlags: 0

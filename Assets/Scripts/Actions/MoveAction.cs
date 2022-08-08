@@ -8,17 +8,17 @@ namespace Actions
 {
     public class MoveAction : BaseAction
     {
+        public event EventHandler OnStartMoving;
+        public event EventHandler OnStopMoving;
+        
         [SerializeField] private Sprite moveSprite;
         
-        [SerializeField] private Animator unitAnimator;
         [SerializeField] private int maxMoveDistance = 4;
 
         [SerializeField] private float moveSpeed = 4.0f;
         [SerializeField] private float stoppingDistance = 0.05f;
         [SerializeField] private float rotateTime = 0.5f;
-    
-        private static readonly int IsWalking = Animator.StringToHash("IsWalking");
-    
+        
         private Vector3 _targetPosition;
 
         protected override void Awake()
@@ -34,16 +34,15 @@ namespace Actions
             if (Vector3.Distance(transform.position, _targetPosition) < stoppingDistance)
             {
                 transform.position = _targetPosition;
-                unitAnimator.SetBool(IsWalking, false);
                 
+                OnStopMoving?.Invoke(this, EventArgs.Empty);
+
                 ActionEnd();
             }
             else
             {
                 var moveDirection = (_targetPosition - transform.position).normalized;
                 transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
-                unitAnimator.SetBool(IsWalking, true);
             }
         }
 
@@ -54,6 +53,8 @@ namespace Actions
             _targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
         
             transform.DOLookAt(_targetPosition, rotateTime);
+            
+            OnStartMoving?.Invoke(this, EventArgs.Empty);
         }
         
         public override List<GridPosition> GetValidActionGridPositionList()
