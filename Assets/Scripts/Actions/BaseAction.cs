@@ -9,7 +9,7 @@ namespace Actions
     {
         protected Unit Unit;
         protected bool IsActive;
-        protected Action onActionComplete;
+        protected Action ONActionComplete;
         
         private const int DefaultActionCost = 1;
 
@@ -34,6 +34,18 @@ namespace Actions
         public virtual int GetActionPointsCost()
         {
             return DefaultActionCost;
+        }
+
+        protected void ActionStart(Action onActionComplete)
+        {
+            IsActive = true;
+            ONActionComplete = onActionComplete;
+        }
+
+        protected void ActionEnd()
+        {
+            IsActive = false;
+            ONActionComplete();
         }
     }
 }

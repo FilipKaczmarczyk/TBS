@@ -36,8 +36,7 @@ namespace Actions
                 transform.position = _targetPosition;
                 unitAnimator.SetBool(IsWalking, false);
                 
-                IsActive = false;
-                onActionComplete();
+                ActionEnd();
             }
             else
             {
@@ -50,8 +49,7 @@ namespace Actions
 
         public override void TakeAction(GridPosition targetPosition, Action onMoveComplete)
         {
-            IsActive = true;
-            onActionComplete = onMoveComplete;
+            ActionStart(onMoveComplete);
             
             _targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
         

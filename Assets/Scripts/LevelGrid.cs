@@ -31,12 +31,6 @@ public class LevelGrid : MonoBehaviour
         var gridObject = _gridSystem.GetGridObject(gridPosition);
         gridObject.AddUnit(unit);
     }
-
-    public List<Unit> GetUnitAtGridPosition(GridPosition gridPosition)
-    {
-        var gridObject = _gridSystem.GetGridObject(gridPosition);
-        return gridObject.GetUnits();
-    }
     
     public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
@@ -62,5 +56,12 @@ public class LevelGrid : MonoBehaviour
         var gridObject = _gridSystem.GetGridObject(gridPosition);
         
         return gridObject.CheckIsOccupied();
+    }
+    
+    public Unit GetUnitAtPosition(GridPosition gridPosition)
+    {
+        var gridObject = _gridSystem.GetGridObject(gridPosition);
+        
+        return gridObject.GetUnit();
     }
 }

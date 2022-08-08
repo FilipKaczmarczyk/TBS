@@ -14,12 +14,10 @@ namespace Actions
         
         public override void TakeAction(GridPosition gridPosition, Action onSpinComplete)
         {
-            IsActive = true;
-            
-            onActionComplete = onSpinComplete;
+            ActionStart(onSpinComplete);
             
             transform.DOLocalRotate(new Vector3(0, 360, 0), 1.0f, RotateMode.FastBeyond360).
-                SetRelative(true).SetEase(Ease.Linear).OnComplete(EndSpin);
+                SetRelative(true).SetEase(Ease.Linear).OnComplete(ActionEnd);
         }
 
         public override List<GridPosition> GetValidActionGridPositionList()
@@ -30,13 +28,6 @@ namespace Actions
             {
                 unitGridPosition
             };
-        }
-
-        private void EndSpin()
-        {
-            IsActive = false;
-            
-            onActionComplete();
         }
 
         public override Sprite GetActionImage()

@@ -46,5 +46,17 @@ namespace Grid
         {
             return _units.Count > 0;
         }
+
+        public Unit GetUnit()
+        {
+            if (CheckIsOccupied())
+            {
+                return _units[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
