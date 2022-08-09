@@ -158,6 +158,8 @@ GameObject:
   - component: {fileID: 5532152542510032054}
   - component: {fileID: 5932341939706837423}
   - component: {fileID: 1978836223269161619}
+  - component: {fileID: 2153137361304944100}
+  - component: {fileID: 1817836476789574069}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -268,6 +270,34 @@ MonoBehaviour:
   bulletProjectilePrefab: {fileID: 7164554479849675731, guid: 7b994146931366c48b2f0aba2edc14b2,
     type: 3}
   shootPointTransform: {fileID: 1861967555680256777}
+--- !u!114 &2153137361304944100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6654778442798546340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346a5eb38d0a62744af67460e0d2d545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+--- !u!114 &1817836476789574069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6654778442798546340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04b6c5fc47d8194bb7be4650a0b917f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ragdollPrefab: {fileID: 6654778442798546347, guid: 930c0546d032b2e43a1356a7471f78ba,
+    type: 3}
+  originalRootBone: {fileID: 6650445972387219019}
 --- !u!1001 &6654778442752940520
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -428,6 +458,12 @@ PrefabInstance:
 --- !u!4 &6650342835323015761 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4580766925885248, guid: 2f3e27eecb190e44a9af50723c394274,
+    type: 3}
+  m_PrefabInstance: {fileID: 6654778442775829777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6650445972387219019 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4966341056781146, guid: 2f3e27eecb190e44a9af50723c394274,
     type: 3}
   m_PrefabInstance: {fileID: 6654778442775829777}
   m_PrefabAsset: {fileID: 0}
