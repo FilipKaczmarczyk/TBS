@@ -6,6 +6,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public static event EventHandler OnAnyActionPointsChanged;
+
     [SerializeField] private bool isEnemy;
     
     private GridPosition _gridPosition;
