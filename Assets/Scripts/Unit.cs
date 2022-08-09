@@ -57,6 +57,11 @@ public class Unit : MonoBehaviour
         return _gridPosition;
     }
 
+    public Vector3 GetWorldPosition()
+    {
+        return transform.position;
+    }
+
     public BaseAction[] GetBaseActions()
     {
         return _baseActions;
