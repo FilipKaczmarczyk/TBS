@@ -17,6 +17,8 @@ namespace Actions
         private Action _onActionComplete;
         
         private const int DefaultActionCost = 1;
+        
+        [field: SerializeField] public GridVisualType VisualType { get; private set; }
 
         protected virtual void Awake()
         {

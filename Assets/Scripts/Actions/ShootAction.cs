@@ -26,8 +26,9 @@ namespace Actions
         [SerializeField] private Sprite shootSprite;
 
         private const int ShootActionCost = 2;
-        
-        private int _maxShootDistance = 7;
+
+        [field: SerializeField] public int MAXShootDistance { get; private set; } = 7;
+    
         private State _state;
         private float _stateTimer;
         private Unit _targetUnit;
@@ -141,9 +142,9 @@ namespace Actions
 
             var unitGridPosition = Unit.GetGridPosition();
         
-            for (var x = -_maxShootDistance; x <= _maxShootDistance; x++)
+            for (var x = -MAXShootDistance; x <= MAXShootDistance; x++)
             {
-                for (var z = -_maxShootDistance; z <= _maxShootDistance; z++)
+                for (var z = -MAXShootDistance; z <= MAXShootDistance; z++)
                 {
                     var offsetGridPosition = new GridPosition(x, z);
                     var testGridPosition = unitGridPosition + offsetGridPosition;
@@ -153,7 +154,7 @@ namespace Actions
 
                     var testDistance = Mathf.Abs(x) + Mathf.Abs(z);
                     
-                    if (testDistance > _maxShootDistance) 
+                    if (testDistance > MAXShootDistance) 
                         continue;
 
                     if (!LevelGrid.Instance.CheckIsUnitAtPosition(testGridPosition))

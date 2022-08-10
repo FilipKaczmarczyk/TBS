@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311021b2ec39e8d4bbe0f93a58fb99aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <VisualType>k__BackingField: 3
   moveSprite: {fileID: 21300000, guid: 0c378fcef547bc44287876c458aa2c03, type: 3}
   maxMoveDistance: 4
   moveSpeed: 4
@@ -515,6 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66c70e6e9480064bb51056bf6126b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <VisualType>k__BackingField: 1
   spinSprite: {fileID: 21300000, guid: a23a6a9f4ff8e884498a2524b22eb6a6, type: 3}
 --- !u!114 &5932341939706837423
 MonoBehaviour:
@@ -528,6 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ffd4d57488f12e46b6615fbecc3189c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <VisualType>k__BackingField: 2
   shootSprite: {fileID: 21300000, guid: dc8518386f59d0e43982ddabb9f1fc39, type: 3}
 --- !u!114 &1978836223269161619
 MonoBehaviour:
