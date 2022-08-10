@@ -117,8 +117,6 @@ namespace Actions
 
         public override void TakeAction(GridPosition gridPosition, Action onShootComplete)
         {
-            ActionStart(onShootComplete);
-
             _targetUnit = LevelGrid.Instance.GetUnitAtPosition(gridPosition);
             
             _state = State.Aiming;
@@ -128,6 +126,8 @@ namespace Actions
             _stateTimer = aimingStateTime;
 
             _canShootBullet = true;
+            
+            ActionStart(onShootComplete);
         }
         
         public override int GetActionPointsCost()
@@ -169,6 +169,11 @@ namespace Actions
             }
         
             return validGridPositions;
+        }
+
+        public Unit GetTargetUnit()
+        {
+            return _targetUnit;
         }
     }
 }

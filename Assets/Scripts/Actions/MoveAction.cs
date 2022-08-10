@@ -48,13 +48,13 @@ namespace Actions
 
         public override void TakeAction(GridPosition targetPosition, Action onMoveComplete)
         {
-            ActionStart(onMoveComplete);
-            
             _targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
         
             transform.DOLookAt(_targetPosition, rotateTime);
             
             OnStartMoving?.Invoke(this, EventArgs.Empty);
+            
+            ActionStart(onMoveComplete);
         }
         
         public override List<GridPosition> GetValidActionGridPositionList()

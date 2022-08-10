@@ -7,9 +7,14 @@ namespace Actions
 {
     public abstract class BaseAction : MonoBehaviour
     {
-        protected Unit Unit;
+        public static EventHandler OnActionStarted;
+        public static EventHandler OnActionEnded;
+        
+        public Unit Unit { get; private set; }
+        
         protected bool IsActive;
-        protected Action ONActionComplete;
+        
+        private Action _onActionComplete;
         
         private const int DefaultActionCost = 1;
 
@@ -39,13 +44,17 @@ namespace Actions
         protected void ActionStart(Action onActionComplete)
         {
             IsActive = true;
-            ONActionComplete = onActionComplete;
+            _onActionComplete = onActionComplete;
+            
+            OnActionStarted?.Invoke(this, EventArgs.Empty);
         }
 
         protected void ActionEnd()
         {
             IsActive = false;
-            ONActionComplete();
+            _onActionComplete();
+            
+            OnActionEnded?.Invoke(this, EventArgs.Empty);
         }
     }
 }
