@@ -29,13 +29,19 @@ namespace UI.WorldUI
             healthSystem.OnDamaged += HealthSystem_OnDamaged;
         }
 
+        private void OnDestroy()
+        {
+            Unit.OnAnyActionPointsChanged -= Unit_OnAnyActionPointsChanged;
+            healthSystem.OnDamaged -= HealthSystem_OnDamaged;
+        }
+
         private void CreateActionPoints()
         {
             var actionPoints = unit.GetActionPoints();
 
             for (var i = 0; i < actionPoints; i++)
             {
-                var unitWorldUIActionPointTransform =  Instantiate(unitWorldUIActionPointPrefab, unitWorldUIActionPointsContainer);
+                var unitWorldUIActionPointTransform = Instantiate(unitWorldUIActionPointPrefab, unitWorldUIActionPointsContainer);
                 
                 var unitWorldUIActionPoint = unitWorldUIActionPointTransform.GetComponent<UnitWorldUIActionPoint>();
                 

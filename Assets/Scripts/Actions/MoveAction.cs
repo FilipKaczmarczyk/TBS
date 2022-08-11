@@ -90,5 +90,16 @@ namespace Actions
         {
             return moveSprite;
         }
+
+        protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+        {
+            var targetCountAtPosition = Unit.GetShootAction().GetTargetCountAtPosition(gridPosition);
+            
+            return new EnemyAIAction
+            {
+                GridPosition = gridPosition,
+                ActionValue = targetCountAtPosition * 10
+            };
+        }
     }
 }

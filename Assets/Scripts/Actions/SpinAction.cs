@@ -39,5 +39,14 @@ namespace Actions
         {
             return SpinActionCost;
         }
+
+        protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+        {
+            return new EnemyAIAction
+            {
+                GridPosition = gridPosition,
+                ActionValue = 0,
+            };
+        }
     }
 }

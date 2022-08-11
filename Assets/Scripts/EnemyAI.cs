@@ -1,4 +1,5 @@
 using System;
+using Actions;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -86,17 +87,44 @@ public class EnemyAI : MonoBehaviour
     
     private bool TryTakeEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete)
     {
-        var spinAction = enemyUnit.GetSpinAction();
-
-        var gridPosition = enemyUnit.GetGridPosition();
-
-        if (!spinAction.CheckIsValidGridPosition(gridPosition)) return false;
+        EnemyAIAction bestEnemyAIAction = null;
+        BaseAction bestBaseAction = null;
         
-        if (!enemyUnit.TrySpendActionPointsToTakeAction(spinAction)) return false;
-            
-        spinAction.TakeAction(gridPosition, onEnemyAIActionComplete);
+        foreach (var baseAction in enemyUnit.GetBaseActions())
+        {
+            if (!enemyUnit.CanSpendActionPointsToTakeAction(baseAction))
+            {
+                // Enemy cannot afford this action
+                continue;
+            }
 
-        return true;
+            if (bestEnemyAIAction == null)
+            {
+                bestEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                bestBaseAction = baseAction;
+            }
+            else
+            {
+                var testEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                
+                if (testEnemyAIAction != null && testEnemyAIAction.ActionValue > bestEnemyAIAction.ActionValue)
+                {
+                    bestEnemyAIAction = testEnemyAIAction;
+                    bestBaseAction = baseAction;
+                }
+            }
+        }
+
+        if (bestEnemyAIAction != null && enemyUnit.TrySpendActionPointsToTakeAction(bestBaseAction))
+        {
+            bestBaseAction.TakeAction(bestEnemyAIAction.GridPosition, onEnemyAIActionComplete);
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void TurnSystem_OnTurnNumberChanged(object sender, EventArgs empty)

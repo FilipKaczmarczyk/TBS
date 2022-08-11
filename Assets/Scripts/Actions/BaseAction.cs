@@ -58,5 +58,32 @@ namespace Actions
             
             OnActionEnded?.Invoke(this, EventArgs.Empty);
         }
+
+        public EnemyAIAction GetBestEnemyAIAction()
+        {
+            var enemyAIActionList = new List<EnemyAIAction>();
+            
+            var validActionGridPositionList =  GetValidActionGridPositionList();
+
+            foreach (var gridPosition in validActionGridPositionList)
+            {
+                var enemyAIAction = GetEnemyAIAction(gridPosition);
+                enemyAIActionList.Add(enemyAIAction);
+            }
+
+            if (enemyAIActionList.Count > 0)
+            {
+                enemyAIActionList.Sort((a, b) => b.ActionValue - a.ActionValue);
+
+                return enemyAIActionList[0];
+            }
+            else
+            {
+                // No possible actions
+                return null;
+            }
+        }
+
+        protected abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
     }
 }
