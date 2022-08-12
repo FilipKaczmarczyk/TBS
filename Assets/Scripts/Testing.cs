@@ -10,11 +10,7 @@ public class Testing : MonoBehaviour
     {
         /*if (Input.GetKeyDown(KeyCode.T))
         {
-            var gridPositionList = unit.GetMoveAction().GetValidActionGridPositionList();
             
-            gridSystemVisual.HideAllGridPositions();
-            
-            gridSystemVisual.ShowGridPositionList(gridPositionList);
         }*/
     }
 }
