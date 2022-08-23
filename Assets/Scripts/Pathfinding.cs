@@ -10,6 +10,7 @@ public class Pathfinding : MonoBehaviour
     private const int MOVE_DIAGONAL_COST = 14;
     
     [SerializeField] private Transform pathfindingGridDebugObjectPrefab;
+    [SerializeField] private LayerMask obstacleLayerMask;
     
     private int _width;
     private int _height;
@@ -28,8 +29,33 @@ public class Pathfinding : MonoBehaviour
         Instance = this;
         
         _gridSystem = new GridSystem<PathNode>(10, 10, 2f, (g, position) => new PathNode(position));
-        
         _gridSystem.CreateDebugObjects(pathfindingGridDebugObjectPrefab);
+    }
+
+    public void Setup(int width, int height, float cellSize)
+    {
+        _width = width;
+        _height = height;
+        _cellSize = cellSize;
+        
+        _gridSystem = new GridSystem<PathNode>(width, height, cellSize, (g, position) => new PathNode(position));
+        _gridSystem.CreateDebugObjects(pathfindingGridDebugObjectPrefab);
+
+        for (var x = 0; x < width; x++)
+        {
+            for (var z = 0; z < height; z++)
+            {
+                var gridPosition = new GridPosition(x, z);
+                var worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                var raycastOffsetDistance = 5f;
+                
+                if (Physics.Raycast(worldPosition + Vector3.down * raycastOffsetDistance, Vector3.up,
+                    raycastOffsetDistance * 2, obstacleLayerMask))
+                {
+                    GetNode(x, z).SetIsWalkable(false);
+                }
+            }
+        }
     }
 
     public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition)
@@ -77,6 +103,12 @@ public class Pathfinding : MonoBehaviour
             {
                 if (closeList.Contains(neighbourNode))
                 {
+                    continue;
+                }
+
+                if (!neighbourNode.IsWalkable())
+                {
+                    closeList.Add(neighbourNode);
                     continue;
                 }
 
