@@ -39,7 +39,7 @@ public class Pathfinding : MonoBehaviour
         _cellSize = cellSize;
         
         _gridSystem = new GridSystem<PathNode>(width, height, cellSize, (g, position) => new PathNode(position));
-        _gridSystem.CreateDebugObjects(pathfindingGridDebugObjectPrefab);
+        // _gridSystem.CreateDebugObjects(pathfindingGridDebugObjectPrefab);
 
         for (var x = 0; x < width; x++)
         {
