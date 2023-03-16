@@ -19,38 +19,49 @@ namespace Actions
         [SerializeField] private float stoppingDistance = 0.05f;
         [SerializeField] private float rotateTime = 0.5f;
         
-        private Vector3 _targetPosition;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            _targetPosition = transform.position;
-        }
-    
+        private List<Vector3> _positionList;
+        private int _currentPositionIndex;
+        
         private void Update()
         {
             if(!IsActive) return;
-            
-            if (Vector3.Distance(transform.position, _targetPosition) < stoppingDistance)
-            {
-                transform.position = _targetPosition;
-                
-                OnStopMoving?.Invoke(this, EventArgs.Empty);
 
-                ActionEnd();
+            var targetPosition = _positionList[_currentPositionIndex];
+            
+            if (Vector3.Distance(transform.position, targetPosition) < stoppingDistance)
+            {
+                _currentPositionIndex ++;
+                
+                if (_currentPositionIndex >= _positionList.Count)
+                {
+                    transform.position = targetPosition;
+                
+                    OnStopMoving?.Invoke(this, EventArgs.Empty);
+
+                    ActionEnd();
+                }
             }
             else
             {
-                var moveDirection = (_targetPosition - transform.position).normalized;
-                transform.position += moveDirection * moveSpeed * Time.deltaTime;
+                var moveDirection = (targetPosition - transform.position).normalized;
+                
+                transform.position += moveDirection * (moveSpeed * Time.deltaTime);
             }
         }
 
         public override void TakeAction(GridPosition targetPosition, Action onMoveComplete)
         {
-            _targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
-        
-            transform.DOLookAt(_targetPosition, rotateTime);
+            var pathGridPositions = Pathfinding.Instance.FindPath(Unit.GetGridPosition(), targetPosition, out int pathLength);
+            
+            _currentPositionIndex = 0;
+            _positionList = new List<Vector3>();
+
+            foreach (var pathGridPosition in pathGridPositions)
+            {
+                _positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+            }
+
+            transform.DOLookAt(LevelGrid.Instance.GetWorldPosition(targetPosition), rotateTime);
             
             OnStartMoving?.Invoke(this, EventArgs.Empty);
             
@@ -62,7 +73,9 @@ namespace Actions
             var validGridPositions = new List<GridPosition>();
 
             var unitGridPosition = Unit.GetGridPosition();
-        
+
+            const int pathfindingDistanceMultiplier = 10;
+            
             for (var x = -maxMoveDistance; x <= maxMoveDistance; x++)
             {
                 for (var z = -maxMoveDistance; z <= maxMoveDistance; z++)
@@ -78,7 +91,16 @@ namespace Actions
                 
                     if (LevelGrid.Instance.CheckIsUnitAtPosition(validGridPosition))
                         continue;
-                
+                    
+                    if (!Pathfinding.Instance.IsWalkableGridPosition(validGridPosition))
+                        continue;
+                    
+                    if (!Pathfinding.Instance.HasPath(unitGridPosition, validGridPosition))
+                        continue;
+
+                    if (Pathfinding.Instance.GetPathLength(unitGridPosition, validGridPosition) > maxMoveDistance * pathfindingDistanceMultiplier)
+                        continue;
+                    
                     validGridPositions.Add(validGridPosition);
                 }
             }

@@ -28,7 +28,7 @@ namespace Actions
         private const int ShootActionCost = 2;
 
         [field: SerializeField] public int MAXShootDistance { get; private set; } = 7;
-    
+        [SerializeField] private LayerMask obstacleLayerMask;
         private State _state;
         private float _stateTimer;
         private Unit _targetUnit;
@@ -147,6 +147,8 @@ namespace Actions
         {
             var validGridPositions = new List<GridPosition>();
 
+            const float unitShoulderHeight = 1.7f;
+            
             for (var x = -MAXShootDistance; x <= MAXShootDistance; x++)
             {
                 for (var z = -MAXShootDistance; z <= MAXShootDistance; z++)
@@ -168,8 +170,20 @@ namespace Actions
                     var targetUnit = LevelGrid.Instance.GetUnitAtPosition(testGridPosition);
                     
                     if (targetUnit.IsEnemy() == Unit.IsEnemy()) 
-                        continue; 
+                        continue;
+
+                    var unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                    var shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                    
+                    if (Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHeight, shootDir,
+                            Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                            obstacleLayerMask))
+                    {
+                        //BLOCK BY OBSTACLE
                         
+                        continue;
+                    }
+
                     validGridPositions.Add(testGridPosition);
                 }
             }
