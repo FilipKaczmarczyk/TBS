@@ -8,6 +8,7 @@ namespace Actions
 {
     public class ShootAction : BaseAction
     {
+        public static event EventHandler<OnShootEventArgs> OnAnyShoot;
         public event EventHandler<OnShootEventArgs> OnShoot;
 
         public class OnShootEventArgs : EventArgs
@@ -77,6 +78,12 @@ namespace Actions
 
         private void Shoot()
         {
+            OnAnyShoot?.Invoke(this, new OnShootEventArgs
+            {
+                TargetUnit = _targetUnit,
+                ShootingUnit = Unit
+            });
+            
             OnShoot?.Invoke(this, new OnShootEventArgs
             {
                 TargetUnit = _targetUnit,
